@@ -1,0 +1,14 @@
+{% extends 'EcomApp/index.html'%}
+{% load static %}
+{% block titlee %}{{ setting.title }}{%endblock%}
+{% block description%}{% endblock %}
+{% block keyword %}{% endblock %}
+
+{% block header %}
+{% include 'EcomApp/header.html' %}
+{% endblock %}
+
+{% block sidebar %}{% endblock %}
+{% block slider %} {% include 'EcomApp/slider.html' %}{% endblock %}
+{% block mainbody %}{% include 'EcomApp/content.html' %}{% endblock %}
+{% block footer %}{% include 'EcomApp/footer.html' %}{% endblock %}
