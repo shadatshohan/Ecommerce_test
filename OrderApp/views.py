@@ -2,6 +2,7 @@ from django.shortcuts import render,HttpResponse,HttpResponseRedirect,HttpRespon
 from Product.models import Category,Product,Images
 from OrderApp.models import ShopCart,ShopCartForm
 from EcomApp.models import Setting
+from django.contrib import messages
 
 # Create your views here.
 def Add_to_Shopping_cart(request,id):
@@ -26,6 +27,7 @@ def Add_to_Shopping_cart(request,id):
                 data.product_id=id
                 data.quantity=form.cleaned_data['quantity']
                 data.save()
+        messages.success(request,"Your Product has been added")
         return HttpResponseRedirect(url)
     else:
         if control==1:
@@ -38,6 +40,7 @@ def Add_to_Shopping_cart(request,id):
             data.product_id=id
             data.quantity=1
             data.save()
+        messages.success(request,"Your Product has been added")
         return HttpResponseRedirect(url)
 
 
@@ -61,4 +64,5 @@ def cart_delete(request,id):
     current_user=request.user
     cart_product=ShopCart.objects.filter(id=id,user_id=current_user.id)
     cart_product.delete()
+    messages.warning(request, 'Your product has been deleted.')
     return HttpResponseRedirect(url)

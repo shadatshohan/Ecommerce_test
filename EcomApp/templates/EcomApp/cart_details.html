@@ -18,6 +18,11 @@
                     </div>
                 </div>
             </div>
+             {%if messages %} {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}" role="alert">
+        {{message}}
+    </div>
+    {% endfor %} {% endif %}
             <!-- Li's Breadcrumb Area End Here -->
             <!--Shopping Cart Area Strat-->
             <div class="Shopping-cart-area pt-60 pb-60">
