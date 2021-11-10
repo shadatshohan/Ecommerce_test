@@ -77,8 +77,9 @@
                             <!-- Begin Header Middle Right Area -->
                             <div class="col-lg-9 pl-0 ml-sm-15 ml-xs-15">
                                 <!-- Begin Header Middle Searchbox Area -->
-                                <form action="#" class="hm-searchbox">
-                                    <select class="nice-select select-search-category">
+                                <form action="{% url 'SearchView' %}" class="hm-searchbox" method="post">
+                                    {% csrf_token %}
+                                    <select name="cat_id" class="nice-select select-search-category">
                                         <option value="0">All</option>
                                         {% load mptt_tags %}
                                         {% recursetree category %}
@@ -87,13 +88,14 @@
                                         {%endif%}
                                         {% if not node.is_leaf_node %}                  
                                          <optgroup label="{{node.title}}">
+                                    }
                                 {{children}}
                             </optgroup>
                                         {% endif %}
                                         {% endrecursetree %}                   
                                        
                                     </select>
-                                    <input type="text" placeholder="Enter your search key ...">
+                                    <input type="text" id="query" name="query" placeholder="Enter your search key ...">
                                     <button class="li-btn" type="submit"><i class="fa fa-search"></i></button>
                                 </form>
                                 <!-- Header Middle Searchbox Area End Here -->
@@ -112,41 +114,32 @@
                                         <li class="hm-minicart">
                                             <div class="hm-minicart-trigger">
                                                 <span class="item-icon"></span>
-                                                <span class="item-text">£80.00
-                                                    <span class="cart-item-count">2</span>
+                                                <span class="item-text">£{{total_amount}}
+                                                    <span class="cart-item-count">{{total_quan}}</span>
                                                 </span>
                                             </div>
                                             <span></span>
                                             <div class="minicart">
                                                 <ul class="minicart-product-list">
+                                                    {% for p in cart_product %}
                                                     <li>
                                                         <a href="single-product.html" class="minicart-product-image">
-                                                            <img src="{%static '' %}{%static '' %}images/product/small-size/5.jpg" alt="cart products">
+                                                            <img src="{{p.product.ImageUrl  }}" alt="cart products">
                                                         </a>
                                                         <div class="minicart-product-details">
-                                                            <h6><a href="single-product.html">Aenean eu tristique</a></h6>
-                                                            <span>£40 x 1</span>
+                                                            <h6><a href="single-product.html">{{p.product.title}}</a></h6>
+                                                            <span>£{{p.product.new_price}} x {{p.quantity}}</span>
                                                         </div>
+                                                        <a href="{% url 'cart_delete' id=p.id %}">
                                                         <button class="close" title="Remove">
                                                             <i class="fa fa-close"></i>
-                                                        </button>
+                                                        </button></a>
                                                     </li>
-                                                    <li>
-                                                        <a href="single-product.html" class="minicart-product-image">
-                                                            <img src="{%static '' %}{%static '' %}images/product/small-size/6.jpg" alt="cart products">
-                                                        </a>
-                                                        <div class="minicart-product-details">
-                                                            <h6><a href="single-product.html">Aenean eu tristique</a></h6>
-                                                            <span>£40 x 1</span>
-                                                        </div>
-                                                        <button class="close" title="Remove">
-                                                            <i class="fa fa-close"></i>
-                                                        </button>
-                                                    </li>
+                                                    {% endfor %}
                                                 </ul>
-                                                <p class="minicart-total">SUBTOTAL: <span>£80.00</span></p>
+                                                <p class="minicart-total">SUBTOTAL: <span>£{{total_amount}}</span></p>
                                                 <div class="minicart-button">
-                                                    <a href="shopping-cart.html" class="li-button li-button-fullwidth li-button-dark">
+                                                    <a href="{% url 'cart_details' %}" class="li-button li-button-fullwidth li-button-dark">
                                                         <span>View Full Cart</span>
                                                     </a>
                                                     <a href="checkout.html" class="li-button li-button-fullwidth">
@@ -174,13 +167,8 @@
                                 <div class="hb-menu">
                                     <nav>
                                         <ul>
-                                            <li class="dropdown-holder"><a href="index.html">Home</a>
-                                                <ul class="hb-dropdown">
-                                                    <li class="active"><a href="index.html">Home One</a></li>
-                                                    <li><a href="index-2.html">Home Two</a></li>
-                                                    <li><a href="index-3.html">Home Three</a></li>
-                                                    <li><a href="index-4.html">Home Four</a></li>
-                                                </ul>
+                                            <li><a href="{%url 'home'  %}">Home</a>
+                                              
                                             </li>
                                             <li class="megamenu-holder"><a href="shop-left-sidebar.html">Shop</a>
                                                 <ul class="megamenu hb-megamenu">
@@ -289,8 +277,8 @@
                                                     </li>
                                                 </ul>
                                             </li>
-                                            <li><a href="about-us.html">About Us</a></li>
-                                            <li><a href="contact.html">Contact</a></li>
+                                            <li><a href="{% url 'about' %}">About Us</a></li>
+                                            <li><a href="{% url 'contact_dat' %}">Contact</a></li>
                                             <li><a href="shop-left-sidebar.html">Smartwatch</a></li>
                                             <li><a href="shop-left-sidebar.html">Accessories</a></li>
                                         </ul>
